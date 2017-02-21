@@ -1879,7 +1879,7 @@ bool PG::op_has_sufficient_caps(OpRequestRef& op)
 
   MOSDOp *req = static_cast<MOSDOp*>(op->get_req());
 
-  Session *session = (Session *)req->get_connection()->get_priv();
+  Session *session = static_cast<Session*>(req->get_connection()->get_priv());
   if (!session) {
     dout(0) << "op_has_sufficient_caps: no session for op " << *req << dendl;
     return false;
