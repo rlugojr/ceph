@@ -4951,7 +4951,7 @@ void OSD::ms_handle_fast_accept(Connection *con)
 
 bool OSD::ms_handle_reset(Connection *con)
 {
-  Session *session = (Session *)con->get_priv();
+  Session *session = static_cast<Session*>(con->get_priv());
   dout(2) << "ms_handle_reset con " << con << " session " << session << dendl;
   if (!session)
     return false;
@@ -4970,7 +4970,7 @@ bool OSD::ms_handle_refused(Connection *con)
   if (!cct->_conf->osd_fast_fail_on_connection_refused)
     return false;
 
-  Session *session = (Session *)con->get_priv();
+  Session *session = static_cast<Session*>(con->get_priv());
   dout(2) << "ms_handle_refused con " << con << " session " << session << dendl;
   if (!session)
     return false;
@@ -8131,7 +8131,7 @@ void OSD::handle_pg_notify(OpRequestRef op)
 
 void OSD::handle_pg_log(OpRequestRef op)
 {
-  MOSDPGLog *m = (MOSDPGLog*) op->get_req();
+  MOSDPGLog *m = static_cast<MOSDPGLog *>(op->get_req());
   assert(m->get_type() == MSG_OSD_PG_LOG);
   dout(7) << "handle_pg_log " << *m << " from " << m->get_source() << dendl;
 
